@@ -17,7 +17,7 @@ namespace AzureIoTEdgeWebAPI
 {
     public class IoTEdge
     {
-        static int counter;
+        //static int counter;
 
         private static ModuleClient _moduleClient { get; set; }
 
