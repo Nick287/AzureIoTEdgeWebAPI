@@ -14,9 +14,14 @@ namespace AzureIoTEdgeWebAPI
         {
             // Get Host IP Address that is used to establish a connection  
             // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
-            // If a host has multiple addresses, you will get a list of addresses  
-            IPHostEntry host = Dns.GetHostEntry("localhost");
-            IPAddress ipAddress = host.AddressList[0];
+            // If a host has multiple addresses, you will get a list of addresses 
+            
+            //IPHostEntry host = Dns.GetHostEntry("localhost");
+            //IPAddress ipAddress = host.AddressList[0];
+
+            // if your host your server in docker u need host address as 0.0.0.0
+            IPAddress ipAddress = IPAddress.Parse("0.0.0.0");
+
             Console.WriteLine("Waiting for a connection... " + ipAddress);
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 9000);
 
