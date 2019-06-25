@@ -12,9 +12,9 @@ using Microsoft.Extensions.Options;
 
 namespace AzureIoTEdgeWebAPI
 {
-    public class Startup
+    public class StartupWebAPI
     {
-        public Startup(IConfiguration configuration)
+        public StartupWebAPI(IConfiguration configuration)
         {
             Configuration = configuration;
         }
