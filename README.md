@@ -10,6 +10,8 @@ This project related to following features
 
 ![architect](image/Slide9.JPG)
 
+### 1: How to integration IoT edge device SDK with an existing .NET core application
+
 First of all, my project does not use the standard IoT Edge project template (of course, this is not recommended). Since I want to use the ASP.NET core project REST API, I directly use the .Net core project template.
 So if you have a project that wants to port from a Docker image to IoT edge project, you can refer to my practice.
 
