@@ -8,3 +8,4 @@ This project related to following features
 3. How to use Blob API in iotedge
 4. How to use Web Socket / REST API or Mqtt host service communicate with different kind of devices
 
+![architect](image/Slide9.JPG)
