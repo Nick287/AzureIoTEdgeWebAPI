@@ -15,7 +15,7 @@ namespace AzureIoTEdgeWebAPI
 
         public CloudStorageHelper(string storageconnectionstring)
         {
-            if (CloudStorageAccount.TryParse("DefaultEndpointsProtocol=https;AccountName=storagebowang;AccountKey=Ub+gMeDwt049dTRlR4AESFdQePzFkBaNnExqxza/je9DV1I44UbQq0D6TUJ41GipZe1O0E4c9Gk6nawbl7+sUw==;EndpointSuffix=core.windows.net", out storageAccount))
+            if (CloudStorageAccount.TryParse(storageconnectionstring, out storageAccount))
             {
                 try
                 {

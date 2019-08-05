@@ -20,7 +20,7 @@ So if you have a project that wants to port from a Docker image to IoT edge proj
 3. Create a new class to handle IoT Edge SDK in my project that named IoT edge and then copy the main iot edge code to here or you can just use my [CLass](https://github.com/Nick287/AzureIoTEdgeWebAPI/blob/master/AzureIoTEdgeWebAPI/IoTEdge.cs)
 ![architect](image/IoTedgeCode.PNG)
 
-I used a *`static`* method to start the Edge SDK
+I have used a *`static`* method to start the Edge SDK
 
 ```C#
 try
@@ -38,7 +38,7 @@ catch (Exception ex)
 }
 ```
 
-### **Second** use device module Twin synchronous Data
+### **2 :** use device module Twin synchronous Data
 The device side this is really simple
 
 ```C#
@@ -109,5 +109,56 @@ public async Task EnumerateTwinsAsync()
     }";
 
     await _registryManager.UpdateTwinAsync(moduletwin.DeviceId, moduletwin.ModuleId, desiredproperties, moduletwin.ETag);
+}
+```
+
+### 3 : How to use Blob API in iotedge
+
+I use blobs because there are user scenarios where the client device needs to send multiple commands to the device such as configuration files that include download images, data filtering thresholds, and equipment configuration information etc. 
+
+in my case I have used device Twin to sync / download the configuration file as a JSON.
+
+1. Add NuGet dependencise for IoT edge SDK 
+![architect](image/Blob.PNG)
+2. Use Blob SDK to download the file form the cloud and I have create a [CloudStorageHelper Class](https://github.com/Nick287/AzureIoTEdgeWebAPI/blob/master/AzureIoTEdgeWebAPI/CloudStorageHelper.cs) that can help you to do this more easier.  
+
+```C#
+static async Task OnDesiredPropertiesUpdate(TwinCollection desiredProperties, object userContext)
+{
+    try
+    {
+        Console.WriteLine("Desired property change:");
+        Console.WriteLine(JsonConvert.SerializeObject(desiredProperties));
+
+        if (desiredProperties["CloudStorageAccount"] != null)
+            CloudStorageAccount = desiredProperties["CloudStorageAccount"];
+
+        if (desiredProperties["ContainerName"] != null)
+            ContainerName = desiredProperties["ContainerName"];
+
+        if (desiredProperties["PathAndFileName"] != null)
+            PathAndFileName = desiredProperties["PathAndFileName"];
+
+        MemoryStream memoryStream = new CloudStorageHelper(CloudStorageAccount).DownloadFile(ContainerName, PathAndFileName);
+
+        string text = System.Text.Encoding.UTF8.GetString(memoryStream.ToArray());
+
+        Console.WriteLine("Download file read the file text is: " + text);
+
+    }
+    catch (AggregateException ex)
+    {
+        foreach (Exception exception in ex.InnerExceptions)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Error when receiving desired property: {0}", exception);
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine();
+        Console.WriteLine("Error when receiving desired property: {0}", ex.Message);
+    }
+    return Task.CompletedTask;
 }
 ```
