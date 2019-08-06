@@ -164,3 +164,51 @@ static async Task OnDesiredPropertiesUpdate(TwinCollection desiredProperties, ob
     return Task.CompletedTask;
 }
 ```
+
+### 4:  How to use Web Socket / REST API or Mqtt host service communicate with different kind of devices
+
+MQTT is a common protocol in the IoT world, so there are a lot of three-party libraries available without self-implementation, so I use [MQTTnet](https://www.nuget.org/packages/MQTTnet/) library here, and this library has a lot of reference code from internet. MQTT is subscription logic, so I created a server on edge you can reference my code [here](https://github.com/Nick287/AzureIoTEdgeWebAPI/blob/master/AzureIoTEdgeWebAPI/Hosting/MqttHost.cs)
+
+![architect](image/MQTT.PNG)
+
+and then you need create and client device to connect this server code like this
+
+```C#
+var mqttClient = new MqttClientFactory().CreateMqttClient();
+
+var options = new MqttClientTcpOptions
+{
+    Server = "127.0.0.1",
+    ClientId = "c001",
+    UserName = "u001",
+    Password = "p001",
+    CleanSession = true
+};
+
+await mqttClient.ConnectAsync(options);
+
+mqttClient.SubscribeAsync(new List<TopicFilter> {
+    new TopicFilter("Home/LivingRoom/AirConditioner/#", MqttQualityOfServiceLevel.AtMostOnce)
+});
+
+var appMsg = new MqttApplicationMessage("Home/LivingRoom/AirConditioner/on-off", Encoding.UTF8.GetBytes("MessageContent"), MqttQualityOfServiceLevel.AtMostOnce, false);
+
+mqttClient.PublishAsync(appMsg);
+
+
+MqttNetTrace.TraceMessagePublished += MqttNetTrace_TraceMessagePublished;
+
+private static void MqttNetTrace_TraceMessagePublished(object sender, MqttNetTraceMessagePublishedEventArgs e)
+{
+    Console.WriteLine($">> thread ID：{e.ThreadId} source：{e.Source} The trace level：{e.Level} Message: {e.Message}");
+
+    if (e.Exception != null)
+    {
+        Console.WriteLine(e.Exception);
+    }
+}
+```
+
+It's pretty simple if you want to use WEB REST API or web socket, It's not much different than developing applications on a server and eventually packaging them into container image. The only thing to note is that the host native address should be "0.0.0.0" instead of "127.0.0.1" because it is in the container.
+
+Socket code please reference [Socket Class](https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socket?view=netcore-2.0) or  reference my code [here](https://github.com/Nick287/AzureIoTEdgeWebAPI/blob/master/AzureIoTEdgeWebAPI/Hosting/SocketHostCore.cs)

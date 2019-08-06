@@ -30,14 +30,14 @@ namespace AzureIoTEdgeWebAPI
                 if (inputString == "exit")
                 {
                     mqttServer?.StopAsync();
-                    Console.WriteLine("MQTT服务已停止！");
+                    Console.WriteLine("MQTT Stoped！");
                     break;
                 }
                 else if (inputString == "clients")
                 {
                     foreach (var item in mqttServer.GetConnectedClients())
                     {
-                        Console.WriteLine($"客户端标识：{item.ClientId}，协议版本：{item.ProtocolVersion}");
+                        Console.WriteLine($"client：{item.ClientId}，protocol version：{item.ProtocolVersion}");
                     }
                 }
                 else if (inputString == "publish")
@@ -49,7 +49,7 @@ namespace AzureIoTEdgeWebAPI
                 }
                 else
                 {
-                    Console.WriteLine($"命令[{inputString}]无效！");
+                    Console.WriteLine($"command[{inputString}]Invalid！");
                 }
 
             }
@@ -90,22 +90,22 @@ namespace AzureIoTEdgeWebAPI
             }
 
             mqttServer.StartAsync();
-            Console.WriteLine("MQTT服务启动成功！");
+            Console.WriteLine("MQTT started！");
         }
 
         private static void MqttServer_ClientConnected(object sender, MqttClientConnectedEventArgs e)
         {
-            Console.WriteLine($"客户端[{e.Client.ClientId}]已连接，协议版本：{e.Client.ProtocolVersion}");
+            Console.WriteLine($"client[{e.Client.ClientId}]connect，protocol version：{e.Client.ProtocolVersion}");
         }
 
         private static void MqttServer_ClientDisconnected(object sender, MqttClientDisconnectedEventArgs e)
         {
-            Console.WriteLine($"客户端[{e.Client.ClientId}]已断开连接！");
+            Console.WriteLine($"client[{e.Client.ClientId}] disconnect！");
         }
 
         private static void MqttServer_ApplicationMessageReceived(object sender, MqttApplicationMessageReceivedEventArgs e)
         {
-            Console.WriteLine($"客户端[{e.ClientId}]>> 主题：{e.ApplicationMessage.Topic} 负荷：{Encoding.UTF8.GetString(e.ApplicationMessage.Payload)} Qos：{e.ApplicationMessage.QualityOfServiceLevel} 保留：{e.ApplicationMessage.Retain}");
+            Console.WriteLine($"client[{e.ClientId}]>> topic：{e.ApplicationMessage.Topic} load：{Encoding.UTF8.GetString(e.ApplicationMessage.Payload)} Qos：{e.ApplicationMessage.QualityOfServiceLevel} 保留：{e.ApplicationMessage.Retain}");
         }
 
         private static void MqttNetTrace_TraceMessagePublished(object sender, MqttNetTraceMessagePublishedEventArgs e)
