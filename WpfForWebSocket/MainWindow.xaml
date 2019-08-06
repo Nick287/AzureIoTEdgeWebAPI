@@ -1,0 +1,33 @@
+﻿<Window x:Class="WpfForWebSocket.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfForWebSocket"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid Margin="33,44,178,204" >
+            <ScrollViewer x:Name="sv" >
+                <TextBlock ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+         ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto" Text="message Output" x:Name="outmegs" TextWrapping="WrapWithOverflow" />
+            </ScrollViewer>
+        </Grid>
+        <Grid Margin="33,237,178,23" >
+            <ScrollViewer x:Name="sv2">
+                <TextBlock ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+         ScrollViewer.VerticalScrollBarVisibility="Auto" Width="Auto" Text="message Input" x:Name="Inputmegs" TextWrapping="WrapWithOverflow" />
+            </ScrollViewer>
+        </Grid>
+
+        <Button Content="start Message" HorizontalAlignment="Left" Margin="644,268,0,0" VerticalAlignment="Top" Width="117"  x:Name="sendmessage" Click="Sendmessage_Click" />
+
+        <Button Content="stop Message" HorizontalAlignment="Left" Margin="644,311,0,0" VerticalAlignment="Top" Width="117"  x:Name="stopsendmessage" Click="Stopsendmessage_Click" />
+
+        <Button Content="connect to server" HorizontalAlignment="Left" Margin="644,224,0,0" VerticalAlignment="Top" Width="117" x:Name="Connectserver" Click="Connectserver_Click"/>
+
+        <Button Content="close server" HorizontalAlignment="Left" Margin="644,350,0,0" VerticalAlignment="Top" Width="117" x:Name="closeservce" Click="Closeservce_Click" />
+        <TextBox Text="ws://localhost/ws" Margin="644,50,28,336" x:Name="IP"/>
+
+    </Grid>
+</Window>

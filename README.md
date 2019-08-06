@@ -212,3 +212,6 @@ private static void MqttNetTrace_TraceMessagePublished(object sender, MqttNetTra
 It's pretty simple if you want to use WEB REST API or web socket, It's not much different than developing applications on a server and eventually packaging them into container image. The only thing to note is that the host native address should be "0.0.0.0" instead of "127.0.0.1" because it is in the container.
 
 Socket code please reference [Socket Class](https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.socket?view=netcore-2.0) or  reference my code [here](https://github.com/Nick287/AzureIoTEdgeWebAPI/blob/master/AzureIoTEdgeWebAPI/Hosting/SocketHostCore.cs)
+
+for Web API you can follow this [tutorial](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-web-api?view=aspnetcore-2.2&tabs=visual-studio) to create your app and then package it into a docker image. [Dockerize an ASP.NET Core application](https://docs.docker.com/engine/examples/dotnetcore/)
+
